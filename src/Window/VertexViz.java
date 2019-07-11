@@ -14,6 +14,10 @@ public class VertexViz extends JPanel implements MouseListener, MouseMotionListe
     JPanel parent;
     Point point;
     final int v;
+    Color color_base=new Color(81, 201, 66);
+    Color color_alg_i=new Color(201, 19, 25);
+    Color color_alg_v=new Color(14, 19, 201);
+    Color color=new Color(81, 201, 66);
 
     private Point mouse = new Point();
 

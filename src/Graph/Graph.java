@@ -1,5 +1,6 @@
 package Graph;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -52,6 +53,7 @@ public abstract class Graph {
         public int v1;
         public int v2;
         public int weight;
+        public Color color=new Color(193, 241, 236);
     }
     public static class Vertex {
         public int v;

@@ -24,7 +24,7 @@ public class SimpleGraph extends Graph{
         if ( adjacenyList.get(e.v1).way.containsKey(e.v2)) throw new RuntimeException("Данное ребро уже существует");
 
         adjacenyList.get(e.v1).way.put(e.v2, e.weight);
-        adjacenyList.get(e.v2).way.put(e.v1, e.weight);
+      //  adjacenyList.get(e.v2).way.put(e.v1, e.weight);
 
         kolE++;
         return true;
@@ -33,7 +33,11 @@ public class SimpleGraph extends Graph{
     @Override
     public boolean removeV(Vertex v) {
         if (!adjacenyList.containsKey(v.v)) throw new RuntimeException("Такой вершины нет");
+        for(int i=0;i<adjacenyList.size();i++){
+            if(i==v.v)continue;
 
+            if(adjacenyList.get(i).way.containsKey(v.v)) adjacenyList.get(i).way.remove(v.v);
+        }
         adjacenyList.remove(v.v);
         kolV--;
         return true;
@@ -46,7 +50,7 @@ public class SimpleGraph extends Graph{
         if ( !adjacenyList.get(e.v1).way.containsKey(e.v2)) throw new RuntimeException("Данное ребро не существует");
 
         adjacenyList.get(e.v1).way.remove(e.v2);
-        adjacenyList.get(e.v2).way.remove(e.v1);
+        //adjacenyList.get(e.v2).way.remove(e.v1);
 
         kolE--;
         return true;
