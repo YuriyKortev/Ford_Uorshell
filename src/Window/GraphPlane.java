@@ -32,6 +32,10 @@ public class GraphPlane extends JPanel {
         };
         addFromKlav(matr);
 
+        remV(0);
+        addV();
+        remV(0);
+
         start_alg();
         floyd_warshell.step();
         floyd_warshell.step();
@@ -50,8 +54,8 @@ public class GraphPlane extends JPanel {
             }
             System.out.print('\n');
         }
-*/
 
+*/
     }
 
     private int[][] list_in_matrix(){
@@ -193,7 +197,7 @@ public class GraphPlane extends JPanel {
         if(v==countV-1)countV--;
         graph.removeV(new Graph.Vertex(v));
         for (int i = 0; i < countE; i++){
-            if (edges.get(i).v1 == v || edges.get(i).v2 == v) edges.remove(i);
+            if(edges.containsKey(i)) if (edges.get(i).v1 == v || edges.get(i).v2 == v) edges.remove(i);
         }
         remove(points.get(v));
         points.remove(v);
