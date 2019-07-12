@@ -65,6 +65,7 @@ public class Algorithm {
         }
         Alg_har back=history.get(0);
         for(int i=0;i<graph.countV;i++) if(graph.points.containsKey(i))graph.points.get(i).color=back.points.get(i);
+        adjMatr=back.adjMatr;
         history.clear();
 
     }
