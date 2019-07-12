@@ -22,7 +22,7 @@ public class GraphPlane extends JPanel {
         setLayout(null);
         setPreferredSize( SIZE_OF_GRAPH_FIELD );    //Размер рамки
         setBackground( BACKGROUND );
-
+/*
         int[][] matr={
                 {0,0,1,0,0},
                 {2,0,0,0,0},
@@ -49,7 +49,7 @@ public class GraphPlane extends JPanel {
             }
             System.out.print('\n');
         }
-
+*/
 
     }
 
