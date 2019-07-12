@@ -22,7 +22,7 @@ public class GraphPlane extends JPanel {
         setLayout(null);
         setPreferredSize( SIZE_OF_GRAPH_FIELD );    //Размер рамки
         setBackground( BACKGROUND );
-/*
+
         int[][] matr={
                 {0,0,1,0,0},
                 {2,0,0,0,0},
@@ -33,6 +33,12 @@ public class GraphPlane extends JPanel {
         addFromKlav(matr);
         start_alg();
         floyd_warshell.step();
+        floyd_warshell.step();
+        floyd_warshell.step();
+        floyd_warshell.step_back();
+
+
+
         int[][]result=floyd_warshell.result();
         for(int i=0;i<result.length;i++){
             for(int j=0;j<result.length;j++){
@@ -43,7 +49,7 @@ public class GraphPlane extends JPanel {
             }
             System.out.print('\n');
         }
-        */
+
 
     }
 
@@ -82,6 +88,17 @@ public class GraphPlane extends JPanel {
                     JOptionPane.ERROR_MESSAGE);
         }
     }       //шаг вперед(кнопка)
+
+    public void step_back(){
+        if (floyd_warshell == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Ошибка: алгоритм еще не запущен",
+                    "Ошибка алгоритма",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        floyd_warshell.step_back();
+    }   //шаг назад
 
     public int[][] result(){    //алгоритм сразу
         if(floyd_warshell==null){
