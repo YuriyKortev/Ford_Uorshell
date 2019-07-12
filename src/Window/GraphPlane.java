@@ -73,6 +73,17 @@ public class GraphPlane extends JPanel {
         this.floyd_warshell=new Algorithm(this,list_in_matrix());
     }
 
+    public void go_to_start(){//кнопка в начало алг
+        if (floyd_warshell == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Ошибка: алгоритм еще не запущен",
+                    "Ошибка алгоритма",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        floyd_warshell.go_to_start();
+    }
+
     public void step() { //кнопка шага вперед
         if (floyd_warshell == null) {
             JOptionPane.showMessageDialog(this,
