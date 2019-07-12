@@ -55,6 +55,20 @@ public class Algorithm {
         }
     }
 
+    public void go_to_start(){//откал в начало
+        if(history.isEmpty()){
+            JOptionPane.showMessageDialog(graph,
+                    "Ошибка: уже начало алгоритма",
+                    "Ошибка алгоритма",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Alg_har back=history.get(0);
+        for(int i=0;i<graph.countV;i++) if(graph.points.containsKey(i))graph.points.get(i).color=back.points.get(i);
+        history.clear();
+
+    }
+
     public int[][] result(){
         while(step());
         return adjMatr;

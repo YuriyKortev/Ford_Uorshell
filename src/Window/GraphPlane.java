@@ -31,6 +31,7 @@ public class GraphPlane extends JPanel {
                 {1,0,5,6,0},
         };
         addFromKlav(matr);
+
         start_alg();
         floyd_warshell.step();
         floyd_warshell.step();
