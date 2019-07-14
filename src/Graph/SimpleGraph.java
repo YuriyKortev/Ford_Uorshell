@@ -2,6 +2,7 @@ package Graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class SimpleGraph extends Graph{
     HashMap<Integer,Vertex> adjacenyList=new HashMap<>();
@@ -12,7 +13,7 @@ public class SimpleGraph extends Graph{
         if (adjacenyList.containsKey(v)) throw new RuntimeException("Такая вершина уже есть");
 
         adjacenyList.put(v, new Vertex(v));
-        kolV++;
+        if(v==kolV)kolV++;
         return true;
     }
 
@@ -33,13 +34,13 @@ public class SimpleGraph extends Graph{
     @Override
     public boolean removeV(Vertex v) {
         if (!adjacenyList.containsKey(v.v)) throw new RuntimeException("Такой вершины нет");
-        for(int i=0;i<adjacenyList.size();i++){
+        for(int i=0;i<kolV;i++){
             if(i==v.v)continue;
 
-            if(adjacenyList.get(i).way.containsKey(v.v)) adjacenyList.get(i).way.remove(v.v);
+            if(adjacenyList.containsKey(i)&& adjacenyList.get(i).way.containsKey(v.v)) adjacenyList.get(i).way.remove(v.v);
         }
         adjacenyList.remove(v.v);
-        kolV--;
+        if(v.v==kolV-1)kolV--;
         return true;
     }
 
@@ -72,6 +73,11 @@ public class SimpleGraph extends Graph{
     }
 
     @Override
+    public Vertex checkV(int v) {
+        return adjacenyList.get(v);
+    }
+
+    @Override
     public int countChildren(int v) {
         if (!adjacenyList.containsKey(v)) return -1;
         return adjacenyList.get(v).way.size();
@@ -79,7 +85,23 @@ public class SimpleGraph extends Graph{
 
     @Override
     public boolean connectivity() {
-        return false;
+        ArrayList<Integer> stek = new ArrayList<Integer>();
+        ArrayList<Integer> baseV = this.getVertexes();
+        stek.add(baseV.get(0));
+        int n = 0;
+        int k = 1;
+
+        while (n < k){
+            Graph.Vertex v_i = this.checkV(stek.get(n));
+            for(Map.Entry<Integer,Integer> j: v_i.way.entrySet()) {
+                if (!stek.contains(j.getKey().intValue())) {                // И путь меньше уже найденного
+                    stek.add(j.getKey().intValue());
+                    k++;
+                }
+            }
+            n++;
+        }
+        return k==adjacenyList.size();
     }
 
     @Override
@@ -91,6 +113,11 @@ public class SimpleGraph extends Graph{
 
     @Override
     public ArrayList<Integer> getVertexes() {
-        return null;
+        ArrayList<Integer> ret = new ArrayList<Integer>();
+
+        for(Map.Entry<Integer, Vertex> v: adjacenyList.entrySet()) {
+            ret.add(v.getKey());
+        }
+        return ret;
     }
 }

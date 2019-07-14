@@ -32,37 +32,37 @@ public class GraphPlane extends JPanel {
         };
         addFromKlav(matr);
 
-        remV(0);
-        addV();
-        remV(0);
-
+        remV(1);
         start_alg();
-        floyd_warshell.step();
-        floyd_warshell.step();
-        floyd_warshell.step();
-        floyd_warshell.step_back();
+
 
 
 
         int[][]result=floyd_warshell.result();
-        for(int i=0;i<result.length;i++){
-            for(int j=0;j<result.length;j++){
-                if(result[i][j]==INF)
+        print_matr(list_in_matrix(false));
+        print_matr(result);
+*/
+
+    }
+
+    private void print_matr(int[][] matr){
+        for(int i=0;i<matr.length;i++){
+            for(int j=0;j<matr.length;j++){
+                if(matr[i][j]==INF)
                     System.out.print("INF  ");
                 else
-                    System.out.print(result[i][j]+"    ");
+                    System.out.print(matr[i][j]+"    ");
             }
             System.out.print('\n');
         }
-
-*/
+        System.out.println();
     }
 
-    private int[][] list_in_matrix(){
+    private int[][] list_in_matrix(boolean is_alg){
         int[][] matr=new int[countV][countV];
         for(int i=0;i<countV;i++){
             for(int j=0;j<countV;j++){
-                if(i!=j) matr[i][j]=INF;
+                if(i!=j) matr[i][j]=is_alg ? INF : 0;
                 else matr[i][j]=0;
             }
         }
@@ -73,8 +73,12 @@ public class GraphPlane extends JPanel {
         return matr;
     }
 
+    public int[][] get_matr(){  //возвращает массив
+        return list_in_matrix(false);
+    }
+
     public void start_alg(){    //начать алгоритм(кнопка)
-        this.floyd_warshell=new Algorithm(this,list_in_matrix());
+        this.floyd_warshell=new Algorithm(this,list_in_matrix(true));
     }
 
     public void go_to_start(){//кнопка в начало алг
@@ -165,9 +169,14 @@ public class GraphPlane extends JPanel {
 
     }
 
-
-
     public void addV(){
+        if (floyd_warshell != null) {
+            JOptionPane.showMessageDialog(this,
+                    "Ошибка: алгоритм запущен",
+                    "Ошибка добавления вершины",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         int i=0;
         for(;i<=countV;i++)
             if(!points.containsKey(i))break;
@@ -178,6 +187,13 @@ public class GraphPlane extends JPanel {
     }//кнопка добавить вершину
 
     public void addE(Graph.Edge edge){
+        if (floyd_warshell != null) {
+            JOptionPane.showMessageDialog(this,
+                    "Ошибка: алгоритм запущен",
+                    "Ошибка добавления ребра",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         try{
             graph.addE(edge);
         }
@@ -194,6 +210,13 @@ public class GraphPlane extends JPanel {
     }//добавить ребро
 
     public void remV(int v) {
+        if (floyd_warshell != null) {
+            JOptionPane.showMessageDialog(this,
+                    "Ошибка: алгоритм запущен",
+                    "Ошибка удаления вершины",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         if(v==countV-1)countV--;
         graph.removeV(new Graph.Vertex(v));
         for (int i = 0; i < countE; i++){
@@ -205,8 +228,16 @@ public class GraphPlane extends JPanel {
     }//удалить вершину
 
     public void remE(Graph.Edge edge){
+        if (floyd_warshell != null) {
+            JOptionPane.showMessageDialog(this,
+                    "Ошибка: алгоритм запущен",
+                    "Ошибка удаления ребра",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         graph.removeE(edge);
         for(int i=0;i<countE;i++) if(edges.containsKey(i) && edges.get(i).v1==edge.v1 && edges.get(i).v2==edge.v2)edges.remove(i);
+        repaint();
     }//удалить ребро
 
     private void drawVertex(Graphics g, int v,Color color) {

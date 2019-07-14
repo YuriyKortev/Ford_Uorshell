@@ -22,6 +22,8 @@ public abstract class Graph {
 
     abstract public Vertex childrenV(int v);
 
+    abstract public Vertex checkV(int v);
+
     abstract public Edge checkE(int v1, int v2);
 
     abstract public int countChildren(int v);
