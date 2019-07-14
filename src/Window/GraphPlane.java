@@ -1,11 +1,19 @@
 package Window;
 
 import Graph.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.math.*;
+import java.util.Iterator;
 
 import static Window.Windows_par.*;
 
@@ -18,11 +26,29 @@ public class GraphPlane extends JPanel {
     Graph graph=new SimpleGraph();
     Algorithm floyd_warshell=null;
 
-    GraphPlane(){
+    GraphPlane() {
         setLayout(null);
-        setPreferredSize( SIZE_OF_GRAPH_FIELD );    //Размер рамки
-        setBackground( BACKGROUND );
+        setPreferredSize(SIZE_OF_GRAPH_FIELD);    //Размер рамки
+        setBackground(BACKGROUND);
 /*
+        try {
+            FileReader reader = new FileReader("file.json");
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
+           // fromFile((JSONObject)jsonObject);
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
+
+*/
+
+
         int[][] matr={
                 {0,0,1,0,0},
                 {2,0,0,0,0},
@@ -32,12 +58,13 @@ public class GraphPlane extends JPanel {
         };
         addFromKlav(matr);
 
-        remV(1);
         start_alg();
 
+        step();
+        step();
+        go_to_start();
 
-
-
+/*
         int[][]result=floyd_warshell.result();
         print_matr(list_in_matrix(false));
         print_matr(result);
@@ -63,7 +90,10 @@ public class GraphPlane extends JPanel {
         for(int i=0;i<countV;i++){
             for(int j=0;j<countV;j++){
                 if(i!=j) matr[i][j]=is_alg ? INF : 0;
-                else matr[i][j]=0;
+                else {
+                    if(points.containsKey(i)) matr[i][j]=0;
+                    else matr[i][j]=INF;
+                }
             }
         }
 
@@ -139,6 +169,8 @@ public class GraphPlane extends JPanel {
         graph=new SimpleGraph();
         points=new HashMap<>();
         edges=new HashMap<>();
+        countV=0;
+        countE=0;
         for(int i=0;i<adjMatr.length;i++) addV();
 
         for(int i=0;i<adjMatr.length;i++){
@@ -184,6 +216,7 @@ public class GraphPlane extends JPanel {
         add(points.get(i));
         graph.addV(i);
         if(i==countV) countV++;
+        repaint();
     }//кнопка добавить вершину
 
     public void addE(Graph.Edge edge){
@@ -239,6 +272,23 @@ public class GraphPlane extends JPanel {
         for(int i=0;i<countE;i++) if(edges.containsKey(i) && edges.get(i).v1==edge.v1 && edges.get(i).v2==edge.v2)edges.remove(i);
         repaint();
     }//удалить ребро
+
+    public void fromFile(JSONObject file){
+        points=new HashMap<>();
+        edges=new HashMap<>();
+        graph=new SimpleGraph();
+        countV=0;
+        countE=0;
+        int vertxs=(int)(long)file.get("count_vert");
+        for(int i=0;i<vertxs;i++)addV();
+
+        JSONArray edges=(JSONArray)file.get("edges");
+        Iterator iter= edges.iterator();
+        while(iter.hasNext()){
+            JSONObject jnode=(JSONObject)iter.next();
+            addE(new Graph.Edge((int)(long)jnode.get("v1"),(int)(long)jnode.get("v2"),(int)(long)jnode.get("weight")));
+        }
+    }
 
     private void drawVertex(Graphics g, int v,Color color) {
         drawCircle(g, points.get(v).point.x,  points.get(v).point.y, VERTEX_R, color);

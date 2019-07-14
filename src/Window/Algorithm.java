@@ -23,10 +23,12 @@ public class Algorithm {
 
     public boolean step(){
         if(i==adjMatr.length) return false;
+        while(!graph.points.containsKey(i))i++;
         history.add(new Alg_har(this.graph.points,this.adjMatr));
         for (int v = 0; v < adjMatr.length; v++) {
             for (int u = 0; u < adjMatr.length; u++) {
-                adjMatr[v][u] = Math.min(adjMatr[v][u], adjMatr[v][i] + adjMatr[i][u]);
+                if(graph.points.containsKey(v) && graph.points.containsKey(u))
+                    adjMatr[v][u] = Math.min(adjMatr[v][u], adjMatr[v][i] + adjMatr[i][u]);
             }
         }
         graph.points.get(i).color=CIRCLE_BORDERLINE_COLOR_BASE;

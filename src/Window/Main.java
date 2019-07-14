@@ -1,15 +1,18 @@
 package Window;
 
+import org.json.simple.parser.ParseException;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 import static Window.Windows_par.*;
 
 public class Main extends JFrame{
 
-    public static void main(String[] args) {new Main(); }
+    public static void main(String[] args){new Main(); }
 
-    Main(){
+    Main() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         setTitle("Алгоритм Форда-Уоршела");      //Имя окна
@@ -17,7 +20,7 @@ public class Main extends JFrame{
 
         setResizable(false);
 
-       add(new GraphPlane());
+        add(new GraphPlane());
 
 
         setVisible(true);
