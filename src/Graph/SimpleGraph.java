@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class SimpleGraph extends Graph{
     HashMap<Integer,Vertex> adjacenyList=new HashMap<>();
-
+    ArrayList<Edge> edges=new ArrayList<Edge>();
 
     @Override
     public boolean addV(int v) {
@@ -26,7 +26,7 @@ public class SimpleGraph extends Graph{
 
         adjacenyList.get(e.v1).way.put(e.v2, e.weight);
       //  adjacenyList.get(e.v2).way.put(e.v1, e.weight);
-
+        edges.add(e);
         kolE++;
         return true;
     }
@@ -52,7 +52,7 @@ public class SimpleGraph extends Graph{
 
         adjacenyList.get(e.v1).way.remove(e.v2);
         //adjacenyList.get(e.v2).way.remove(e.v1);
-
+        edges.remove(e);
         kolE--;
         return true;
     }
@@ -87,12 +87,13 @@ public class SimpleGraph extends Graph{
     public boolean connectivity() {
         ArrayList<Integer> stek = new ArrayList<Integer>();
         ArrayList<Integer> baseV = this.getVertexes();
+        HashMap<Integer,Vertex> list=not_orient_list();
         stek.add(baseV.get(0));
         int n = 0;
         int k = 1;
 
         while (n < k){
-            Graph.Vertex v_i = this.checkV(stek.get(n));
+            Graph.Vertex v_i = list.get(stek.get(n));
             for(Map.Entry<Integer,Integer> j: v_i.way.entrySet()) {
                 if (!stek.contains(j.getKey().intValue())) {                // И путь меньше уже найденного
                     stek.add(j.getKey().intValue());
@@ -117,6 +118,16 @@ public class SimpleGraph extends Graph{
 
         for(Map.Entry<Integer, Vertex> v: adjacenyList.entrySet()) {
             ret.add(v.getKey());
+        }
+        return ret;
+    }
+
+    private HashMap<Integer,Vertex> not_orient_list(){
+        HashMap<Integer,Vertex>ret=new HashMap<>();
+        ret=(HashMap)this.adjacenyList.clone();
+
+        for(int i=0;i<edges.size();i++){
+            if(!ret.get(edges.get(i).v2).way.containsKey(edges.get(i).v1))ret.get(edges.get(i).v2).way.put(edges.get(i).v1,edges.get(i).weight);
         }
         return ret;
     }

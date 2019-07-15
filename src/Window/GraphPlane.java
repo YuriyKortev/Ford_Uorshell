@@ -30,12 +30,12 @@ public class GraphPlane extends JPanel {
         setLayout(null);
         setPreferredSize(SIZE_OF_GRAPH_FIELD);    //Размер рамки
         setBackground(BACKGROUND);
-/*
+
         try {
             FileReader reader = new FileReader("file.json");
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
-           // fromFile((JSONObject)jsonObject);
+          //  fromFile((JSONObject)jsonObject);
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
@@ -46,7 +46,7 @@ public class GraphPlane extends JPanel {
             ex.printStackTrace();
         }
 
-*/
+
 
 
         int[][] matr={
@@ -57,14 +57,14 @@ public class GraphPlane extends JPanel {
                 {1,0,5,6,0},
         };
         addFromKlav(matr);
-
+/*
         start_alg();
 
         step();
         step();
         go_to_start();
 
-/*
+
         int[][]result=floyd_warshell.result();
         print_matr(list_in_matrix(false));
         print_matr(result);
@@ -108,6 +108,13 @@ public class GraphPlane extends JPanel {
     }
 
     public void start_alg(){    //начать алгоритм(кнопка)
+        if (graph.connectivity() == false) {
+            JOptionPane.showMessageDialog(this,
+                    "Ошибка: граф должен быть связным",
+                    "Ошибка запуска алгоритма",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         this.floyd_warshell=new Algorithm(this,list_in_matrix(true));
     }
 
