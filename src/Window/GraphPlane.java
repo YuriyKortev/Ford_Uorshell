@@ -115,6 +115,13 @@ public class GraphPlane extends JPanel {
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
+        if (points.size()<2) {
+            JOptionPane.showMessageDialog(this,
+                    "Ошибка: должно быть минимум две вершины",
+                    "Ошибка запуска алгоритма",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         this.floyd_warshell=new Algorithm(this,list_in_matrix(true));
     }
 
