@@ -30,7 +30,7 @@ public class GraphPlane extends JPanel {
         setLayout(null);
         setPreferredSize(SIZE_OF_GRAPH_FIELD);    //Размер рамки
         setBackground(BACKGROUND);
-
+/*
         try {
             FileReader reader = new FileReader("file.json");
             JSONParser jsonParser = new JSONParser();
@@ -46,7 +46,7 @@ public class GraphPlane extends JPanel {
             ex.printStackTrace();
         }
 
-/*
+
 
 
         int[][] matr={
@@ -55,30 +55,33 @@ public class GraphPlane extends JPanel {
                 {1,2,0,0,0},
                 {0,0,3,0,0},
                 {1,0,5,6,0},
+
         };
+
         addFromKlav(matr);
 
-        start_alg();
+       // start_alg();
 
 
 
 
-        int[][]result=floyd_warshell.result();
-        print_matr(list_in_matrix(false));
-        print_matr(result);
+      //  int[][]result=floyd_warshell.result();
+       // print_matr(list_in_matrix(false));
+        //print_matr(result);
 
 */
     }
 
     private void print_matr(int[][] matr){
         for(int i=0;i<matr.length;i++){
+            System.out.print("{");
             for(int j=0;j<matr.length;j++){
                 if(matr[i][j]==INF)
-                    System.out.print("INF  ");
+                    System.out.print("INF  ,");
                 else
-                    System.out.print(matr[i][j]+"    ");
+                    System.out.print(matr[i][j]+"    ,");
             }
-            System.out.print('\n');
+            System.out.print("}\n");
         }
         System.out.println();
     }
@@ -106,13 +109,7 @@ public class GraphPlane extends JPanel {
     }
 
     public void start_alg(){    //начать алгоритм(кнопка)
-        if (graph.connectivity() == false) {
-            JOptionPane.showMessageDialog(this,
-                    "Ошибка: граф должен быть связным",
-                    "Ошибка запуска алгоритма",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+
         if (points.size()<2) {
             JOptionPane.showMessageDialog(this,
                     "Ошибка: должно быть минимум две вершины",

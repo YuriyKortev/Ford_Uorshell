@@ -126,6 +126,10 @@ public class SimpleGraph extends Graph{
         HashMap<Integer,Vertex>ret=new HashMap<>();
         ret=(HashMap)this.adjacenyList.clone();
 
+        for(Map.Entry<Integer,Vertex> v: adjacenyList.entrySet()){
+            ret.get(v.getKey()).way=(HashMap)adjacenyList.get(v.getKey()).way.clone();
+        }
+
         for(int i=0;i<edges.size();i++){
             if(!ret.get(edges.get(i).v2).way.containsKey(edges.get(i).v1))ret.get(edges.get(i).v2).way.put(edges.get(i).v1,edges.get(i).weight);
         }
